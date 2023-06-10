@@ -1,0 +1,167 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+
+      <h2 id="bg_head" style="border: 2px solid black;
+          background: url({% static 'img/img_read.jpg'%}) no-repeat center;
+          background-size: cover;
+          margin-top: 0.8cm;margin-left: 1%;padding: 8% 5%; padding-left: 0.8cm; padding-right: 0.2cm;
+           text-align: left;
+           background-color: rgb(228, 228, 228);border-radius: 10px; color: white;">
+        Study Materials
+
+        <!-- <h3 style="margin-top: 0.8cm;padding: 0.6cm;background-color: rgb(228, 228, 228);border-radius: 5px;">Study Materials -->
+        {% if request.user.is_superuser %}
+        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+          style="margin-right: 3%;float: right;">
+          Delete Subject
+        </button>
+        {% endif %}
+        </h3>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Subject</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Delete the subject including all the files
+              </div>
+              <form action="{% url 'delete_all' subject %}" method="post">
+                {% csrf_token %}
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <input type="submit" class="btn btn-danger" value="Yes, Delete all">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {% if request.user.is_superuser %}
+
+        <div class="accordion accordion-flush" style="border-radius: 20px;" id="accordionFlushExample">
+
+          <div class="accordion-item" style="border-radius: 20px;">
+
+            <h2 class="accordion-header" id="flush-headingOne" style="border-radius: 25px;">
+
+              <button style="border-radius: 20px; background-color: rgb(240, 255, 255);text-align: center;"
+                class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                Click Here to Upload Files
+              </button>
+            </h2>
+
+            <div id="flush-collapseOne" style="border-radius: 10px;" class="accordion-collapse collapse"
+              aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+              <div id="fileform" style="display:flex;justify-content:center;align-items:center;">
+                <form action="{% url 'material_upload' subject %}" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="mb-3" style="margin-top: 0.3cm;">
+                    <label for="formFileMultiple1" class="form-label">Document Files :</label>
+                    <input class="form-control" type="file" accept=".pdf,.doc,.docx" name="files" id="formFileMultiple"
+                      multiple>
+                    <label for="formFileMultiple2" class="form-label">Image :</label>
+                    <input class="form-control" type="file" accept=".png,.jpg" name="images" id="formFileMultiple"
+                      multiple>
+                  </div>
+                  <center><button type="submit" class="btn btn-primary btn-sm"
+                      style="margin-bottom: 0.5cm;">Submit</button></center>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        {% endif %}
+        <h4 style="margin: 0.5cm auto;margin-left: 2%;color: white;">List Of Uploaded Materials</h4>
+
+        {% for file,filename in files %}
+        <!-- <div style="padding: 3%; border: solid white 1px; border-radius: 7px;"> -->
+          
+          <li class="list-group list-group-numbered text-break">
+          <li class="list-group-item d-flex justify-content-between align-items-start" aria-disabled="true"
+            style="padding-bottom: 2%;">
+            <div class="me-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                <path
+                  d="M4.603 12.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.701 19.701 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.187-.012.395-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.065.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.716 5.716 0 0 1-.911-.95 11.642 11.642 0 0 0-1.997.406 11.311 11.311 0 0 1-1.021 1.51c-.29.35-.608.655-.926.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.27.27 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.647 12.647 0 0 1 1.01-.193 11.666 11.666 0 0 1-.51-.858 20.741 20.741 0 0 1-.5 1.05zm2.446.45c.15.162.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.881 3.881 0 0 0-.612-.053zM8.078 5.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+              </svg>
+              <a href="{{file}}"
+                style="text-decoration: none;color: inherit;position: absolute;padding-top: 2px;padding-left: 3px;" target=”_blank”>
+                {{filename}}</a>
+            </div>
+            {% if request.user.is_superuser %}
+            <button type="button" class="btn btn-danger btn-sm" style="position: relative; float: right;"><a
+                href="../{{file}}" style="text-decoration:none;color:inherit">Delete</a></button>
+            {% else %}
+            <button type="button" class="btn btn-success btn-sm" style="position: relative;float: right;"><a
+                href="{{file}}" style="text-decoration:none;color:inherit" download>Download</a></button>
+            {% endif %}
+          </li>
+          {% endfor %}
+
+          {% for image,imagename in images %}
+
+          <li class="list-group-item d-flex justify-content-between align-items-start" aria-disabled="true"
+            style="padding-bottom: 2%;">
+            <div class="me-auto text-break">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-images"
+                viewBox="0 0 16 16">
+                <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                <path
+                  d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z" />
+              </svg>
+              <a href="{{image}}"
+                style="text-decoration: none;color: inherit;position: absolute;padding-top: 2px;padding-left: 10px;" target=”_blank”>
+                {{imagename}}
+              </a>
+            </div>
+            {% if request.user.is_superuser %}
+            <button type="button" class="btn btn-danger btn-sm" style="position: relative;float: right;"><a
+                href="../{{image}}" style="text-decoration:none;color:inherit">Delete</a></button>
+            {% else %}
+
+            <button type="button" class="btn btn-success btn-sm"
+              style="margin-right: 1%;position: relative; float: right;">
+              <a href="{{image}}" style="text-decoration:none;color:inherit" download>Download</a>
+            </button>
+
+            <button type="button" class="btn btn-success btn-sm" style="position: relative;float: right;">
+              <a href="{{image}}" style="text-decoration:none;color:inherit">View</a>
+            </button>
+
+            {% endif %}
+          </li>
+          </li>
+          {% endfor %}
+        <!-- </div> -->
+        {% if no %}
+        <center>
+          <h5 id="no-material" style="color: white;">No Materials Uploaded Yet</h5>
+        </center>
+        {% endif %}
+        <div style="margin : 5% auto">
+          <center><a href="/create_subject/" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+              </svg> Back</a></center>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<div class="container" style="margin: 5% auto">
+  <div class="row" >
+    <div class="card" style="margin-top: 5px; margin-left: 60px;width: 18rem;border-radius: 10px;">
+      <img src="{% static 'img/Educational.png' %}" class="card-img-top" alt="..."
+        style="margin-top:5%;border-radius: 10px;">
+      <div class="card-body">
+        <h5 class="card-title"><a href="/create_subject">Course Materials</a></h5>
+        <p class="card-text">The materials are organised by subject .</p>
+        <a href="/create_subject" class="btn btn-primary" style="margin-left: 35%;">Open </a>
+      </div>
+    </div>
+    <div class="col-md-4 card" style="margin-top: 5px; margin-left: 60px;width: 18rem;border-radius: 10px;">
+      <img src="{% static 'img/imp_announce.jpg' %}" class="card-img-top" alt="..."
+        style="margin-top:5%;border-radius: 10px;">
+      <div class="card-body">
+        <h5 class="card-title"><a href="announce">Announcement</a></h5>
+        <p class="card-text">This Announcement will be posted to all your students .</p>
+        {% if request.user.is_superuser %}
+        <a href="announce" class="btn btn-primary" style="margin-left: 30%;">Announce</a>
+        {% else %}
+        <a href="announce" class="btn btn-primary" style="margin-left: 35%;">Check</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

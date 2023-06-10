@@ -1,0 +1,122 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <!-- Bootstrap 5 JavaScript Bundle with Popper -->
+
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+
+  <!-- Bootstrap CSS -->
+
+  <title>Hello, world!</title>
+  <style>
+    body {
+      background: #FEA1A1;
+    }
+
+    #myimg {
+      margin-top: 0.5cm;
+      ;
+      border: 2px solid #FEA1A1;
+      border-radius: 45%;
+      height: 7cm;
+      width: 6cm;
+    }
+
+    .bg_about {
+      background: #F0EDD4;
+      border-radius: 20px;
+      border: 2px solid #FEA1A1;
+      margin-top: 0.5cm;
+      margin-bottom: 1cm;
+      padding-bottom: 0.5cm;
+    }
+
+    h3 {
+      font-weight: bold;
+      font-family: Garamond;
+      letter-spacing: 0.1cm;
+    }
+
+    h4 {
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: bold;
+    }
+
+    #in {
+      height: 1cm;
+      width: 1cm;
+    }
+
+    h5 {
+      margin: 4% 5%;
+      padding: 2% 2%;
+      font-family: American Typewriter, serif;
+
+      background: black;
+      color: white;
+      border-radius: 8px;
+    }
+
+    a {
+      margin: 2% 2%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <center>
+          <div class="bg_about">
+            <img id="myimg" src="{% static 'img/Balaji k.jpg' %}" alt=""><br><br>
+            <h3>BALAJI K</h3>
+            <h4>Bachelor of Engineering in Computer Science Department</h4>
+
+            <h5>This Django website includes Study Resources and Announcements for Students, as well as CRUD operations
+              with User and Admin access.
+            </h5>
+            <h3 style="font-size: 18px;letter-spacing: 0cm;">Technologies: HTML , CSS , Bootstrap 5 , Django.</h3>
+            <a href="https://www.linkedin.com/in/balaji-k-06a6a8230/" target=”_blank”><img id="in"
+                src="{% static 'icon/linked_in.png' %}" alt=""></a>
+            <a href="https://github.com/balajik27" target=”_blank”><img id="in" src="{% static 'icon/github.png' %}"
+                alt=""></a>
+            <a href="https://www.instagram.com/ll__balaji__ll/" target=”_blank”><img id="in"
+                src="{% static 'icon/insta_icon.png' %}" alt=""></a><br><br>
+            <img id="in" src="{% static 'icon/WA.png' %}" alt=""> 9080022621 <br>
+            <a href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCJvqsbKJXGkGnTrFBjGxmgDJFkwFwGNbrHQrWXhZrCHkZTRnVsjnbSQlLrXMMxbCHqMVTwL"
+              target=”_blank” "><img id=" in" src="{% static 'icon/gmail.png' %}" alt=""></a>balajik272003@gmail.com
+            <br>
+            <a href="/home" class="btn btn-outline-dark" id="b"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+              </svg> Home</a>
+          </div>
+
+        </center>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if success %}
+<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin: 2rem auto 0 auto">
+    <strong>Register Successfull</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        
+    </button>
+</div>
+
+{% endif %}
+{% if login_status %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin: 2rem auto 0 auto">
+    <strong>Invalid Username and Password..!!</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        
+    </button>
+</div>
+{% endif %}
+
+<form action="/" method="post" style="margin: 3rem auto 0 auto;" >
+    {% csrf_token %}
+    <h2 style="font-family:Century Gothic;text-align: center;font-weight: bold;">Login</h2>
+    <!-- Email input -->
+    <div class="form-group">
+        <label class="form-label" for="form2Example1">User name</label>
+        <input type="text" id="form2Example1" class="form-control" name="User" required />
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="form2Example2" style=" font-size:18px; font-weight: bold;">Password</label>
+        <input type="password" id="password" class="form-control" name="password" required />
+    
+    </div>
+    <!-- <div class="form-group form check" style="margin-left: 3%;">
+        <input type="checkbox" class="form-check-input"value="1" name="remember_me">
+        <label class="form-check-label" for="Remember">Remember me</label>
+    </div> -->
+    <!-- <center><button style="margin-top: 5%;" class="btn btn-primary btn-block mb-4">Log in</button></center> -->
+    <center><button style="margin-top: 5%;" class="button_slide slide_left" >Log in</button></center>
+    <!-- <center><div class="button_slide slide_left">LOG IN </div></center> -->
+</form>
+<center> <p><strong> I dont have account, <a href="/register/" id="log_reg" style="text-decoration: none;font-size: 18px;">Register now!</a></strong></p></center>
+{% endblock %}

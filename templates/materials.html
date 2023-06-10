@@ -1,0 +1,99 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <div class="row">
+        
+        <div class="col-md-2">
+            <!-- <img src="{% static 'img/img_code.jpg' %}" alt=""> -->
+        </div>
+        <div class="col-md-8">
+            {% if alert %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin: 1cm 5%">
+                <center> <strong>{{alert}}</strong></center>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    
+                </button>
+            </div>
+            {% endif %}
+            <h2 id="bg_head"
+          style="border: 2px solid black;
+          background: url({% static 'img/img_bs.jpg'%}) no-repeat center;
+          background-size: cover;
+          margin-top: 0.8cm;margin-left: 1%;padding: 8% 5%; padding-left: 0.8cm; padding-right: 0.2cm;
+           text-align: left;
+           background-color: rgb(228, 228, 228);border-radius: 10px; color: white;">
+          Course Materials
+        
+            {% if request.user.is_superuser %}
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="margin-right: 3%; float: right;">
+                New Subject
+            </button>
+            {% endif %}</h2>
+            <h5 style="margin: 0.6cm auto;margin-left: 2%;color: white;">List Of Uploaded Subjects.</h5>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                        Subject Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/create_subject/" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                              <label for="exampleInputSubject" class="form-label">Subject Name : </label>
+                              <input type="text" class="form-control" name="sub_name" id="exampleInputSubject" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="exampleInputDescription" class="form-label">Description : </label>
+                              <textarea type="text" class="form-control" name="description" id="exampleInputDescription"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+            
+            {% for sub,count in subject %}
+            <ol class="list-group" style="margin-left: 2%;">
+
+                <a href="{% url 'material_list' sub.name %}"style="text-decoration: none; color: inherit;border-radius: 20px;">
+                    <li class="list-group list-group-numbered">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto text-break">
+                                <div class="fw-bold ">{{ forloop.counter }}. {{sub.name}}</div>
+                                {{sub.description}}
+                            </div>
+                            <span class="badge bg-primary rounded-pill">{{count}} files</span>
+                            </li>
+                    </li>
+                </a>
+                
+              </ol>
+              {% endfor %}
+              {% if no %}
+              <center><h5 id ="no-material" style="color: white;">No Materials Uploaded Yet</h5></center>
+              {% endif %}
+              <div style="margin: 5% auto;">
+              <center><a href="/home" class="btn btn-primary" id="b"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+              </svg> Back</a>
+              </center>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
+{% endblock %}

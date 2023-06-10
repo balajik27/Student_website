@@ -1,0 +1,152 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <title>Hello, world!</title>
+  <style>
+    #bg_div {
+      border: 2px solid black;
+      background: url({% static 'img/img_code.jpg'%}) no-repeat center;
+      background-size: cover;
+    }
+    #bg {
+      background: url({% static 'img/book_bg.jpg'%}) no-repeat center center fixed;
+      background-size: cover;
+    }
+  </style>
+</head>
+
+<body id="bg">
+  {% include 'nav.html' %}
+
+  <!-- Optional JavaScript; choose one of the two! -->
+  <div class="container" style="margin: 1cm auto;">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        {% if alert %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin: 1cm 5%">
+          <center> <strong>{{alert}}</strong></center>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+
+          </button>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin: 1cm 5%">
+          <center> <strong>{{success}}</strong></center>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+
+          </button>
+        </div>
+        {% endif %}
+        <h3 id="bg_div"
+          style="text-align: center;margin-top: 0.8cm;padding: 10%;background-color: rgb(228, 228, 228);border-radius: 10px; color: white;">
+          Announcements
+        </h3>
+        
+        
+
+        <!-- Button trigger modal -->
+        {% if request.user.is_superuser %}
+        <center>
+          {% if no %}
+          {% else %}
+          <a href="/home" class="btn btn-primary" style="margin: 0.2cm 0.2cm 0.4cm 0.2cm; " id="b"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg></a>
+          {% endif %}
+          
+          <button type="button" style="margin: 0.2cm 0.2cm 0.4cm 0.2cm;" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">
+            Announce Something..
+          </button>
+          {% endif %}
+        </center>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                  Announcement
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="announce" method="post">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="exampleInputSubject" class="form-label">Announce Title : </label>
+                    <input type="text" class="form-control" name="title" id="exampleInputSubject">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputDescription" class="form-label">Content : </label>
+                    <textarea type="text" style="white-space: pre-wrap;" rows="6" class="form-control" name="texts" id="exampleInputDescription"
+                      required></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% for content in announce %}
+        <ol class="list-group" style="margin-left: 2%;">
+          <li class="list-group list-group-numbered">
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+
+              <div class="fw-bold" style="white-space: pre-wrap;">{{content.title}}<p class="text-muted" style="font-size: 11px;">{{content.currentdate}}</p></div>
+                
+              {{content.text}}
+              
+             
+            </div>
+            {% if request.user.is_superuser %}
+              <button type="button" class="btn btn-danger btn-sm" style="margin-top: 0.2cm; float: right;"><a href="{% url 'delete_announce' content.title %}"
+                  style="text-decoration:none;color:inherit">Delete</a></button>
+              {% endif %}
+            <!-- <span class="badge bg-primary rounded-pill">{{count}} files</span> -->
+          </li>
+          </li>
+        </ol>
+        {% endfor %}
+        {% if no %}
+        <center>
+          <h5 id="no-material" style="color: black; margin-top: 2cm; margin-bottom: 2cm;">No Announcement Yet</h5>
+        </center>
+        {% endif %}
+        <div style="margin: 5% auto;">
+          <center><a href="/home" class="btn btn-primary" id="b"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg> Back</a>
+          </center>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+
+
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

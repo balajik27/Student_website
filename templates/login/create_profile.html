@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div  style="margin-top: 10%;">
+<h1>Welcome {{username}},</h1>
+<p class="form-text" style="font-weight: bold;">Take a while to create your profile..</p>
+</div>
+<form action="/create_profile/" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="forcountry" class="form-label">Country</label>
+        <input list="country" type="text" class="form-control" name="country" id="query" required>
+        <datalist id="country">
+            {% for i in countries %}
+            <option value="{{ i }}">
+            {% endfor %}
+
+        </datalist>
+    </div>
+    <div class="form-group">
+        <label for="formobile" class="form-label">Mobile number</label>
+        <input type="number" class="form-control" name = "mobile" required>
+    </div>
+    <div class="form-group">
+        <label for="forgender" class="form-label">Gender</label>
+        <!-- <input list = "gender" type="text" class="form-control" name ="gender" required> -->
+        <select class="form-control" name ="gender" id="gender">
+            <!-- <datalist id="gender"> -->
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Transgender">Transgender</option>
+            <!-- </datalist> -->
+        </select>
+    </div>
+    <!-- <div class="form-group">
+        <label for="foraddress">Address(optional)</label>
+    </div> -->
+    <div class="form-group" style="text-align: center;">
+        <button class="button_slide slide_left">Submit</button>
+    </div>
+    
+</form>
+{% endblock %}
